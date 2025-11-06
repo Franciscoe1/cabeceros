@@ -16,36 +16,46 @@ public class CabecerasHttpRequestServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html;charset=UTF-8");
         String metodoHttp = req.getMethod();
-        String requestURI = req.getRequestURI().toString();
-        String requestURL = req.getRequestURL().toString();
+        String requestUri = req.getRequestURI();
+        String requestUrl = req.getRequestURL().toString();
         String contextPath = req.getContextPath();
         String servletPath = req.getServletPath();
-        String ip = req.getRemoteAddr();
-        int port = req.getServerPort();
+        String ip= req.getLocalAddr();
+        int port = req.getLocalPort();
+        String scheme = req.getScheme();
+        String host = req.getHeader("host");
+        String url=scheme+"://"+host+":"+contextPath+servletPath;
+        String url2=scheme+"://"+ip+":"+port+contextPath+servletPath;
+        String ipCLiente=req.getRemoteAddr();
 
         try (PrintWriter out = resp.getWriter()) {
-            //generar plantilla
-            out.println("<!DOCTYPE html>");
+            //Creo la plantilla html
+            out.print("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Manejo de cabeceros 2025-2026</title>");
+            out.println("<meta charset=\"utf-8\">");
+            out.println("<title>Cabeceras Http Request</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Manejo de cabeceros</h1>");
+            out.println("<h1>Cabeceras HTTP Request!</h1>");
             out.println("<ul>");
-            out.println("<li>Obteniendo el método de petición: " + metodoHttp + "</li>");
-            out.println("<li>Obtniendo la URI: " + requestURI + "</li>");
-            out.println("<li>Obteniendo la URL: " + requestURL + "</li>");
-            out.println("<li>Obteniendo el contexto: " + contextPath + "</li>");
-            out.println("<li>Obteniendo el servlet; "+ servletPath + "</li>");
-            out.println("<li>Obteniendo la ip: " + ip + "</li>");
-            out.println("<li>Obteniendo el port: " + port + "</li>");
-            Enumeration<String> headersNames = req.getHeaderNames();
-            while(headersNames.hasMoreElements()) {
-                String cabecera = headersNames.nextElement();
-                out.println("<li>" + cabecera + " : " + req.getHeader(cabecera) + "</li>");
+            out.println("<li>Obtenniendo el método"+ metodoHttp+"</li>");
+            out.println("<li>Request uri: "+ requestUri +"</li>");
+            out.println("<li>Request url: "+ requestUrl+"</li>");
+            out.println("<li>Context Path: "+ contextPath+"</li>");
+            out.println("<li>Servlet Path: "+ servletPath+ "</li>");
+            out.println("<li>IP "+ ip +"</li>");
+            out.println("<li>Port :"+port+"</li>");
+            out.println("<li>Scheme :"+ scheme+"</li>");
+            out.println("<li>Host :"+ host+"</li>");
+            out.println("<li>URL :"+ url+"</li>");
+            out.println("<li>URL2 :"+ url2+"</li>");
+            out.println("<li>REMOTE CLIENTE :"+ ipCLiente+"</li>");
+            Enumeration<String> headerNames=req.getHeaderNames();
+            while(headerNames.hasMoreElements()){
+                String cabecera = headerNames.nextElement();
+                out.println("<li>" +cabecera + ": " +req.getHeader(cabecera)+"</li>");
             }
-
             out.println("</ul>");
             out.println("</body>");
             out.println("</html>");

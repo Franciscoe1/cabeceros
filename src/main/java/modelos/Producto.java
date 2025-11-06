@@ -1,37 +1,29 @@
 package modelos;
-/*
- * Clase modelo para representar un producto.
- */
+
 public class Producto {
-    //encapsulamos y declaramos las variables del objeto producto
-    private Long  idProducto;
+
+    private Long id;
     private String nombre;
-    private Double precio;
     private String tipo;
-    public Producto() {}
-    /*
-     * Constructor de la clase Producto.
-     * @param idProducto Identificador único del producto.
-     * @param nombre Nombre del producto.
-     * @param precio Precio del producto.
-     * @param tipo Tipo o categoría del producto.
-     */
-    public Producto(Long idProducto, String nombre, Double precio, String tipo) {
-        this.idProducto = idProducto;
+    private double precio;
+
+    public Producto() {
+    }
+
+    public Producto(Long id, String nombre, String tipo, double precio) {
+        this.id = id;
         this.nombre = nombre;
-        this.precio = precio;
         this.tipo = tipo;
-    }
-    /*
-     *Getters y Setters de la clase Producto, para acceder y modificar los atributos del producto.
-     */
-
-    public Long getIdProducto() {
-        return idProducto;
+        this.precio = precio;
     }
 
-    public void setIdProducto(Long idProducto) {
-        this.idProducto = idProducto;
+    public Long getId() {
+        return id;
+    }
+    ///id= 3 tengo acceso al 3
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNombre() {
@@ -42,19 +34,19 @@ public class Producto {
         this.nombre = nombre;
     }
 
-    public Double getPrecio() {
-        return precio;
-    }
-
-    public void setPrecio(Double precio) {
-        this.precio = precio;
-    }
-
     public String getTipo() {
         return tipo;
     }
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    public double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(double precio) {
+        this.precio = precio;
     }
 }
