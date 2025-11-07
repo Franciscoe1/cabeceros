@@ -13,36 +13,49 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-//Implementamos la anotación
+/**
+ * Author = Francisco Escobar
+ * Fecha = 06/11/2025
+ * Servlet que muestra un listado de productos en formato HTML o fuerza la
+ * descarga como archivo Excel (Content-Type application/vnd.ms-excel)
+ * si la petición llega a /productos.xls.
+ *
+ * Está mapeado a /productos.xls y /productos.html.
+ */
 @WebServlet({"/productos.xls","/productos.html"})
 public class ProductoXlsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // Obtener los productos desde el servicio.
         ProductoService service = new ProductoServiceImplement();
         List<Producto> productos = service.listar();
 
         resp.setContentType("text/html;charset=UTF-8");
         String servletPath=req.getServletPath();
+        // Determinamos si la petición es para el .xls (descarga) o para html.
         boolean esXls=servletPath.endsWith(".xls");
         if (esXls){
+            // Si es .xls indicamos el tipo de contenido de Excel y forzamos descarga.
             resp.setContentType("application/vnd.ms-excel");
              resp.setHeader("Content-Disposition", "attachment; filename=productos.xls");
         }
         try (PrintWriter out = resp.getWriter()) {
             if (!esXls) {
-                //Creo la plantilla html
+                // Cuando no es descarga generamos la cabecera HTML normal.
                 out.print("<!DOCTYPE html>");
                 out.println("<html>");
                 out.println("<head>");
                 out.println("<meta charset=\"utf-8\">");
-                out.println("<title>Listado dre Productos</title>");
+                out.println("<title>Listado de Productos</title>");
                 out.println("</head>");
                 out.println("<body>");
                 out.println("<h1>Listado de productos</h1>");
+                // Enlaces para exportar a Excel o ver JSON usando otros servlets.
                 out.println("<p><a href=\"" + req.getContextPath() + "/productos.xls" + "\">exportar a excel</a></p>");
                 out.println("<p><a href=\"" + req.getContextPath() + "/productojson" + "\">mostrar json</a></p>");
             }
 
+            // Tabla HTML con los productos (esto también se interpreta por Excel cuando se descarga).
             out.println("<table>");
             out.println("<tr>");
             out.println("<th>id</th>");
